@@ -52,7 +52,6 @@ function getFactAjax(){
 
     // Get the value of the input so that we get the fact of the number
     const number = numberInput.value;
-    console.log(number);
     // Create xhr object
     const xhr = new XMLHttpRequest();
 
@@ -62,7 +61,7 @@ function getFactAjax(){
     // Fetch
     xhr.onload = function(){
         if(this.status === 200){
-            if (number === ""){
+            if (number === null){
                 hideFacts();
                 showAlert();
             } else {
@@ -89,7 +88,7 @@ function getFactFetch(){
         .then(res => res.text())
         .then(data => {
             console.log(data);
-            if (number === ""){
+            if (number === null){
                 hideFacts();
                 showAlert();
             } else {
@@ -116,7 +115,7 @@ function getFactAsyncAwait(){
     const data = await response.text();
 
     // we only proceed once second promise is resolved
-    if (number === ""){
+    if (number === null){
         fact.style.display= "none";
         hideFacts();
         showAlert();
