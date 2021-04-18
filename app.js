@@ -12,43 +12,61 @@ const alert = document.getElementById('alert');
 
 if (numberInput.value ===""){
     fact.style.display= "none";
+}
+
+
+ajaxbtn.addEventListener('click', ajaxCallback);
+fetchbtn.addEventListener('click', fetchCallback);
+asyncbtn.addEventListener('click', asyncCallback);
+
+
+
+function ajaxCallback(){
+    fact.className = 'card';
+    
+    fact.className += ' bg-primary text-white';
+
+    // init UI
+    numberInput.value = "";
+    hideFacts();
+    factText.innerText= "";
+    numberInput.addEventListener('input', getFactAjax);
+}
+
+
+function fetchCallback() {
+    fact.className = 'card';
+
+    fact.className += ' bg-success text-white';
+
+    // init UI
+    numberInput.value = "";
+    hideFacts();
+    factText.innerText= "";
+    
+    numberInput.addEventListener('input', getFactFetch);
 
 }
 
-ajaxbtn.addEventListener('click', () => {
-    // init UI
-    numberInput.value = "";
-    hideFacts();
-    factText.innerText= "";
-
-    fact.className += ' bg-primary text-white';
-    numberInput.addEventListener('input', getFactAjax);
-})
-
-fetchbtn.addEventListener('click', () => {
-
-    // init UI
-    numberInput.value = "";
-    hideFacts();
-    factText.innerText= "";
-
-    fact.className += ' bg-success text-white';
-    numberInput.addEventListener('input', getFactFetch);
-})
-asyncbtn.addEventListener('click', () => {
-
-    // init UI
-    numberInput.value = "";
-    hideFacts();
-    factText.innerText= "";
+function asyncCallback() {
+    fact.className = 'card';
 
     fact.className += ' bg-warning text-dark';
+
+    // init UI
+    numberInput.value = "";
+    hideFacts();
+    factText.innerText= "";
     numberInput.addEventListener('input', getFactAsyncAwait);
-})
+
+}
 
 
 
 function getFactAjax(){
+    numberInput.removeEventListener('input', getFactFetch);
+    numberInput.removeEventListener('input', getFactAsyncAwait);
+
 
     // Get the value of the input so that we get the fact of the number
     const number = numberInput.value;
@@ -79,6 +97,8 @@ function getFactAjax(){
 
 
 function getFactFetch(){
+    numberInput.removeEventListener('input', getFactAsyncAwait);
+    numberInput.removeEventListener('input', getFactAjax);
 
     // Get the value of the input so that we get the fact of the number
     const number = numberInput.value;
@@ -91,6 +111,7 @@ function getFactFetch(){
             if (number === null){
                 hideFacts();
                 showAlert();
+                
             } else {
                 hideFacts();
                 fact.style.display= "block";
@@ -103,6 +124,9 @@ function getFactFetch(){
 
 
 function getFactAsyncAwait(){
+    numberInput.removeEventListener('input', getFactFetch);
+    numberInput.removeEventListener('input', getFactAsyncAwait);
+
     // async function
     async function AsyncAwait (){
     // Get the value of the input so that we get the fact of the number
@@ -119,6 +143,7 @@ function getFactAsyncAwait(){
         fact.style.display= "none";
         hideFacts();
         showAlert();
+        
     } else {
         hideFacts();
         fact.style.display= "block";
